@@ -28,10 +28,13 @@ env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIRECTORY))
 
 assert args.language in ('en', 'ch'), 'Language must be one of ("en", "ch")'
 
+global_context = dict(config['DEFAULT'])
 for filename, context in config.items():
     if not filename.endswith('html'):
         continue
     source_path = os.path.join(TEMPLATE_DIRECTORY, filename)
     out_path = os.path.join(OUT_DIRECTORY, args.language, filename)
+    local_context = global_context.copy()
+    local_context.update(context)
     with open(out_path, 'w') as f:
-        f.write(env.get_template(filename).render(context))
+        f.write(env.get_template(filename).render(local_context))
