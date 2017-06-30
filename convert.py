@@ -1,6 +1,6 @@
 """Convert templates and configuration file into production HTML files."""
 
-import configparser
+import ConfigParser
 import jinja2
 import os.path
 import argparse
@@ -19,17 +19,18 @@ args = parser.parse_args()
 try:
     os.mkdir(OUT_DIRECTORY)
     os.mkdir(os.path.join(OUT_DIRECTORY, args.language))
-except FileExistsError:
+except:
     pass
 
-config = configparser.ConfigParser()
+config = ConfigParser.ConfigParser()
 config.read(args.language + '.config')
 env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIRECTORY))
 
 assert args.language in ('en', 'ch'), 'Language must be one of ("en", "ch")'
 
-global_context = dict(config['DEFAULT'])
-for filename, context in config.items():
+global_context = dict(config.items('DEFAULT'))
+for filename in config.sections():
+    context = dict(config.items(filename))
     if not filename.endswith('html'):
         continue
     source_path = os.path.join(TEMPLATE_DIRECTORY, filename)

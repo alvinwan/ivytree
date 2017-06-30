@@ -16,7 +16,19 @@ Start by changing your directory into the repository root.
 cd ivytree
 ```
 
-We need to install dependencies in Python. The following installs all requirements listed in `requirements.txt`.
+Now, install `pip`, a Python package manager. The following will prompt you for your password. It is safe to enter.
+
+```
+sudo easy_install pip
+```
+
+Then, we want to own the folder that pip will write to, for our Python packages.
+
+```
+sudo chown -R $(whoami) /Library/Python/2.7/
+```
+
+Finally, we need to install dependencies in Python. The following installs all requirements listed in `requirements.txt`.
 
 ```
 pip install -r requirements.txt
