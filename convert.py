@@ -4,8 +4,12 @@ import configparser
 import jinja2
 import os.path
 
+# Which language to run for
+LANGUAGE = 'en'
+assert LANGUAGE in ('en', 'ch')
+
 # Directory to output all files in
-OUT_DIRECTORY = './dist'
+OUT_DIRECTORY = os.path.join('dist', LANGUAGE)
 
 try:
     os.mkdir(OUT_DIRECTORY)
@@ -16,7 +20,7 @@ except FileExistsError:
 TEMPLATE_DIRECTORY = './templates'
 
 config = configparser.ConfigParser()
-config.read('main.config')
+config.read(LANGUAGE + '.config')
 env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIRECTORY))
 
 
